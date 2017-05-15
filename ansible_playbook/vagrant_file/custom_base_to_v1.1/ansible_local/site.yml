@@ -1,0 +1,11 @@
+---
+- hosts: manage_server
+  sudo: true
+  remote_user: vagrant
+  roles: 
+    - 01_Packages
+    - 02_OsSetting
+    - 03_Network
+    - 04_UserSetting
+    - 05_WorkdirMake
+    - 06_AuthorizedKey

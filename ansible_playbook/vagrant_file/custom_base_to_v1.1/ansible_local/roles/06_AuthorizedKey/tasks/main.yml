@@ -1,0 +1,7 @@
+- name: set_authorized_key.ymlを実行
+  expect: 
+    command: /bin/bash -lc "ansible-playbook set_authorized_key.yml -i ./hosts -u vagrant -k"
+    chdir: "{{ ansible_home.dir }}"
+    responses: 
+      'SSH password': "{{ remote_user }}"
+  

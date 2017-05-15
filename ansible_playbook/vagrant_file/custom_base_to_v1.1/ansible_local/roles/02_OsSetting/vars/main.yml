@@ -1,0 +1,5 @@
+---
+hosts_file: "/etc/hosts"
+inst_hosts: 
+  - "192.168.33.20    buildsrv"
+  - "192.168.33.30    node1"
