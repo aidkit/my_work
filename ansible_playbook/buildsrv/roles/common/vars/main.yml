@@ -6,3 +6,6 @@ ntp_server2: 10.66.200.205
 yum_inst_packages:
   - ntp
   - openssh
+  - python-devel
+  - libxml2-devel
+  - libxslt-devel

@@ -11,8 +11,14 @@
   pip: 
     name: python-jenkins
     state: latest
+  tags: 
+    - jenkins
+    - inst_pip
     
 - name: pipにて、lxmlをインストールします。
   pip: 
     name: lxml
     state: latest
+  tags: 
+    - jenkins
+    - inst_pip
