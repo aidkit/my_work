@@ -1,0 +1,8 @@
+---
+ntp_server1: 10.66.200.102
+ntp_server2: 10.66.200.205
+
+
+yum_inst_packages:
+  - ntp
+  - openssh

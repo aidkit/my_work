@@ -1,0 +1,9 @@
+---
+- name: stop jenkins
+  service: name=jenkins state=stoped
+
+- name: start jenkins
+  service: name=jenkins state=started
+
+- name: restart jenkins
+  command: java -jar {{ jenkins_cli_dest }} -s http://{{ jenkins_host_name }}:{{ jenkins_port }} safe-restart

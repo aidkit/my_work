@@ -1,0 +1,12 @@
+---
+- hosts: all
+  remote_user: vagrant
+  vars: 
+    ansible_home: ansible
+  tasks:
+    - name: Set authorized key
+      authorized_key: 
+        user: vagrant
+        state: present
+        key: "{{ lookup('file', '/home/{{ ansible_home }}/.ssh/id_rsa.pub') }}"
+

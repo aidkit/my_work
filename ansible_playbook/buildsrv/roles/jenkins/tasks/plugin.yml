@@ -1,0 +1,31 @@
+--- 
+- name: Get jenkins cli
+  get_url: url={{ jenkins_cli_url }} dest={{ jenkins_cli_dest }}
+  register: result
+  until: result.msg.find("Request failed") == -1
+  retries: 5
+  delay: 10
+  tags:
+    - jenkins
+    - plugin
+    
+- name: Create updates directory
+  file: path={{ jenkins_updates_dir }} state=directory mode=0755
+  tags:
+    - jenkins
+    - plugin
+
+- name: Create jenkins plugin file
+  shell: >
+    curl -L {{ jenkins_updates_center_url }} | sed '1d;$d' > {{ jenkins_updates_json_path }}
+    creates={{ jenkins_updates_json_path }}
+  tags:
+    - jenkins
+    - plugin
+
+- name: Restart jenkins
+  service: name=jenkins state=restarted
+  tags:
+    - jenkins
+    - plugin
+

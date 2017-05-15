@@ -1,0 +1,6 @@
+---
+- hosts: jenkinsSlaves
+  sudo: yes
+  roles: 
+    - common
+    - openjdk

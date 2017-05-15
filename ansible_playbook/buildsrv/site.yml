@@ -1,0 +1,4 @@
+---
+  - include: buildsrv.yml
+  - include: node1.yml
+

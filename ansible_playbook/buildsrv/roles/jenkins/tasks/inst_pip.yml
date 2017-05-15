@@ -1,0 +1,18 @@
+---
+- name: pipインストールその１
+  yum: 
+    name=python-pip
+    state=latest
+  tags: 
+    - jenkins
+    - inst_pip
+ 
+- name: pipにて、python-jenkinsをインストールします。
+  pip: 
+    name: python-jenkins
+    state: latest
+    
+- name: pipにて、lxmlをインストールします。
+  pip: 
+    name: lxml
+    state: latest

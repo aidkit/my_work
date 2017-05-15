@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>指定資材ファイルのローテーションを行う。&#xd;
+&#xd;
+</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>FIND_DIR</name>
+          <description>ローテーションファイルが存在するルートパス</description>
+          <defaultValue>/opt/SVN_Build/release</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>FIND_FILE</name>
+          <description>ローテーション対象ファイル名
+例） 低圧バッチ本番1号機の場合　takusobatch_honban1</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>GREP_KEY</name>
+          <description>ローテーション対象ファイル名以外の抽出名</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <customWorkspace>/opt/SVN_Build</customWorkspace>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+
+# 世代数
+DELEATE_SORCE_GEN=2
+
+# 資材格納ディレクトリ
+RELEASE_DIR=${FIND_DIR}
+# ローテートファイル
+LOTATE_FILE_KEY=${FIND_FILE}
+# パスフィルタ条件
+GREP_STR=${GREP_KEY}
+
+if [ ! -e &quot;${RELEASE_DIR}&quot; ]; then
+        echo &quot;====================================================================================================&quot;
+        echo &quot; [ERROR] - 引数１の${RELEASE_DIR}が存在しません。処理を中断します。&quot;
+        echo &quot;====================================================================================================&quot;
+        echo &quot;&quot;
+        exit 1
+fi
+
+if [ &quot;${LOTATE_FILE_KEY}&quot; = &quot;&quot; ]; then
+        echo &quot;====================================================================================================&quot;
+        echo &quot; [ERROR] - 引数２の${LOTATE_FILE_KEY}が未指定です。処理を中断します。&quot;
+        echo &quot;====================================================================================================&quot;
+        echo &quot;&quot;
+        exit 1
+fi
+
+FILE_COUNT=`find ${RELEASE_DIR} -name &quot;${LOTATE_FILE_KEY}*&quot; | grep &quot;${GREP_STR}&quot; | sort | wc -l`
+echo  &quot;対象ファイル数：${FILE_COUNT}&quot;
+
+if [ ${FILE_COUNT} -gt ${DELEATE_SORCE_GEN} ]; then
+        #世代数より対象ファイル数の方が多い
+
+        echo &quot;ローテート処理を実行します。&quot;
+        echo &quot;リリースファイルの保持世代数は${DELEATE_SORCE_GEN}世代です&quot;
+
+        DELEATE_FILE=`find ${RELEASE_DIR} -name &quot;${LOTATE_FILE_KEY}*&quot; | grep &quot;${GREP_STR}&quot; | sort -r | awk &apos;NR&gt;&apos;${DELEATE_SORCE_GEN}&apos; { print }&apos;`
+        if [ `echo ${DELEATE_FILE} | wc -w` -ne 0 ]; then
+                echo &quot;以下のファイルを削除します&quot;
+                echo &quot;${DELEATE_FILE}&quot;
+                rm -f ${DELEATE_FILE}
+        fi
+fi</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.7"/>
+  </buildWrappers>
+</project>

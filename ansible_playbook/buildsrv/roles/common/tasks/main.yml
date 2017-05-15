@@ -1,0 +1,14 @@
+---
+- name: yum install package
+  yum:
+    name={{ item }}
+    state=latest
+  with_items:
+    - "{{ yum_inst_packages }}"
+  tags: yum_inst
+
+- name: Configure/ Import EPEL Repository
+  yum: 
+    name: epel-release
+    state: latest
+    update_cache: yes

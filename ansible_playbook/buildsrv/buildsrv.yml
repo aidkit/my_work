@@ -1,0 +1,7 @@
+---
+- hosts: buildsrv
+  sudo: yes
+  roles: 
+    - common
+    - jenkins
+

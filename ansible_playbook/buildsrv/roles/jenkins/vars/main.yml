@@ -1,0 +1,17 @@
+---
+openjdk_items:
+  - java-1.7.0-openjdk-1.7.0.71-2.5.3.2.el6_6.x86_64.rpm
+  - java-1.8.0-openjdk-headless-1.8.0.51-3.b16.el6_7.x86_64.rpm
+yum_repojitory_path: /etc/yum.repos.d
+jenkins_key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+jekins_package_url: jenkins-2.46-1.1.noarch.rpm
+#jekins_package_url: http://pkg.jenkins-ci.org/redhat-stable/jenkins-2.46.1-1.1.noarch.rpm
+jenkins_host_name: localhost
+jenkins_port: 8080
+jenkins_updates_json_path: /var/lib/jenkins/updates/default.json
+jenkins_updates_dir: /var/lib/jenkins/updates
+jenkins_cli_dest: ~/jenkins-cli.jar
+jenkins_cli_url: http://{{ jenkins_host_name }}:{{ jenkins_port }}/jnlpJars/jenkins-cli.jar
+jenkins_updates_center_url: http://updates.jenkins-ci.org/update-center.json
+jenkins_initset_file: jenkins_2.46_initsetting.tar.gz
+jenkins_parent_dir: /var/lib

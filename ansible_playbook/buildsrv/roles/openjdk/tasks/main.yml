@@ -1,0 +1,6 @@
+---
+- name: openjdk install
+  yum: name={{ item }} state=present update_cache=yes 
+  with_items: 
+    - "{{ openjdk_items }}"
+  tags: openjdk
