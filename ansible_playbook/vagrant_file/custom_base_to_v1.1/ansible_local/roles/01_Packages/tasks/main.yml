@@ -6,31 +6,41 @@
     state=latest
   with_items: 
     - "{{ yum_inst_packages }}"
-
+  tags: 
+    - 01_Packages
+    
 - name: Configure/  Yum Repository
   replace: 
     dest: /etc/yum.repos.d/CentOS-Base.repo
     replace: '#mirrorlist_co='
     regexp: 'mirrorlist='
     backup: yes
+  tags: 
+    - 01_Packages
 
   replace: 
     dest: /etc/yum.repos.d/CentOS-Base.repo
     replace: 'baseurl='
     regexp: '#baseurl='
     backup: no
+  tags: 
+    - 01_Packages
 
 - name: Configure/ Yum Update Package
   yum: 
     name: '*'
     state: latest
     update_cache: yes
+  tags: 
+    - 01_Packages
     
 - name: Configure/ Import EPEL Repository
   yum: 
     name: epel-release
     state: latest
     update_cache: yes
+  tags: 
+    - 01_Packages
     
 - name: pipにて、pexpectをインストールします。
   pip: 
@@ -38,3 +48,6 @@
     state: latest
   with_items: 
     - "{{ pip_inst_package }}"
+  tags: 
+    - 01_Packages
+    

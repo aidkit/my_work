@@ -2,6 +2,8 @@
 - name: Configure SELinux Disabled setting
   selinux: 
     state: disabled
+  tags: 
+    - 02_OsSetting
 
 - name: Configure/ Locale Setting
   replace: 
@@ -9,6 +11,8 @@
     replace: 'ja_JP.UTF-8'
     regexp: 'de_DE.UTF-8'
     backup: yes
+  tags: 
+    - 02_OsSetting
 
 - name: Configure/ TimeZone setting
   replace: 
@@ -16,6 +20,8 @@
     replace: 'Asia/Tokyo'
     regexp: 'Europe/Berlin'
     backup: yes
+  tags: 
+    - 02_OsSetting
 
 - name: Configure/ TimeZone setting
   file: 
@@ -23,9 +29,13 @@
     dest: /etc/localtime
     state: link
     force: yes
+  tags: 
+    - 02_OsSetting
 
 - name: Configure/ Locale Setting Enable Now
   shell: . /etc/sysconfig/i18n
+  tags: 
+    - 02_OsSetting
 
 - name: ファイル"{{ hosts_file }}"に"{{ inst_hosts }}"を追記
   lineinfile: 
@@ -33,3 +43,6 @@
     line={{ item }}
   with_items: 
    - "{{ inst_hosts }}"
+  tags: 
+    - 02_OsSetting
+   

@@ -3,14 +3,19 @@
   file: 
     path: "{{ ansible_home.dir }}"
     state: absent
+  tags: 
+    - 05_WorkdirMake
     
-- name: ansible作業ディレクトリにチェックアウト
+- name: ansible作業ディレクトリにエクスポート
   subversion: 
     username: "{{ svn_info.user }}"
     password: "{{ svn_info.pass }}"
     force: yes
     dest: "{{ ansible_home.dir }}"
     repo: "{{ svn_info.url }}"
+    export: yes
+  tags: 
+    - 05_WorkdirMake
     
 - name:  ansible作業ディレクトリパーミッション変更
   file: 
@@ -19,6 +24,8 @@
     group: "{{ ansible.user_name }}"
     owner: "{{ ansible.user_name }}"
     mode: 0755
+  tags: 
+    - 05_WorkdirMake
 
 - name:  ansible作業ファイル所有者変更
   file: 
@@ -27,6 +34,8 @@
     recurse: yes
     group: "{{ ansible.user_name }}"
     owner: "{{ ansible.user_name }}"
+  tags: 
+    - 05_WorkdirMake
 
 - name:  ansible作業ファイル(sh)パーミッション変更
   file: 
@@ -34,3 +43,5 @@
     mode: 0755
   with_fileglob: 
     - "{{ ansible_home.dir }}/*.sh"
+  tags: 
+    - 05_WorkdirMake

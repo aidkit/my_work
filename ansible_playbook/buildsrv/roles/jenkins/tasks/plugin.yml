@@ -23,6 +23,15 @@
     - jenkins
     - plugin
 
+- name: JenkinsPlugin Timestamper
+  jenkins_plugin:
+    name: Timestamper
+    with_dependencies: yes
+    params: "{{ my_jenkins_params }}"
+  tags:
+    - jenkins
+    - plugin
+
 - name: Restart jenkins
   service: name=jenkins state=restarted
   tags:

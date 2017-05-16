@@ -36,4 +36,13 @@ config_files:
   - hudson.triggers.SCMTrigger.xml
   - jenkins.model.ArtifactManagerConfiguration.xml
   - jenkins.model.JenkinsLocationConfiguration.xml
+
+  
+# Jenkins Plugin Install vars
+my_jenkins_params: 
+  url_username: admin
+  url_password: admin
+  url: http://localhost:8080
+  force: true
+  timeout: 300
   

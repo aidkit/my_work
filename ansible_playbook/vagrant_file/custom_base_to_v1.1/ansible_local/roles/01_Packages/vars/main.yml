@@ -6,7 +6,7 @@ yum_inst_packages:
   - python-pip
   - subversion
   - libselinux-python
+  - git
 
 pip_inst_package: 
   - pexpect
-  - python-jenkins

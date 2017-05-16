@@ -4,4 +4,6 @@
     chdir: "{{ ansible_home.dir }}"
     responses: 
       'SSH password': "{{ remote_user }}"
-  
+  tags: 
+    - 06_AuthorizedKey
+

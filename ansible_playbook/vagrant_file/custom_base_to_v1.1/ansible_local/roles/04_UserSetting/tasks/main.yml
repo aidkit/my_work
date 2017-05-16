@@ -2,6 +2,8 @@
 - name: グループ"{{ usergroup.ansible_group.name }}"を追加 
   group: 
     name={{usergroup.ansible_group.name}}
+  tags: 
+    - 04_UserSetting
 
 - name: ユーザ"{{ usergroup.ansible_user.name }}"を追加 
   user: 
@@ -12,3 +14,6 @@
     generate_ssh_key=yes
     ssh_key_type=rsa
     ssh_key_bits=2048
+  tags: 
+    - 04_UserSetting
+    
