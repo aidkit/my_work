@@ -1,5 +1,6 @@
 ---
 - include: inst_pip.yml
 - include: deploy.yml
+- include: init_setting.yml
 - include: plugin.yml
 - include: job_manage.yml
