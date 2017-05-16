@@ -1,0 +1,8 @@
+@echo off
+
+cd %1
+
+echo "éwíËVMÇÃí‚é~ÇµÇ‹Ç∑ÅB"
+vagrant halt %1
+
+cd ..
