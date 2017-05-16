@@ -1,0 +1,4 @@
+---
+ansible_home: 
+  dir: "/opt/{{ansible.user_name}}"
+remote_user: vagrant

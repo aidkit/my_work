@@ -1,2 +1,1 @@
 *.rpm
-ansible_playbook/buildsrv/roles/jenkins/files/jenkins_2.46_initsetting.tar.gz

@@ -1,0 +1,36 @@
+---
+- name: ansible作業ディレクトリを初期化
+  file: 
+    path: "{{ ansible_home.dir }}"
+    state: absent
+    
+- name: ansible作業ディレクトリにチェックアウト
+  subversion: 
+    username: "{{ svn_info.user }}"
+    password: "{{ svn_info.pass }}"
+    force: yes
+    dest: "{{ ansible_home.dir }}"
+    repo: "{{ svn_info.url }}"
+    
+- name:  ansible作業ディレクトリパーミッション変更
+  file: 
+    path: "{{ ansible_home.dir }}"
+    state: directory
+    group: "{{ ansible.user_name }}"
+    owner: "{{ ansible.user_name }}"
+    mode: 0755
+
+- name:  ansible作業ファイル所有者変更
+  file: 
+    path: "{{ ansible_home.dir }}"
+    state: directory
+    recurse: yes
+    group: "{{ ansible.user_name }}"
+    owner: "{{ ansible.user_name }}"
+
+- name:  ansible作業ファイル(sh)パーミッション変更
+  file: 
+    path: "{{ item }}"
+    mode: 0755
+  with_fileglob: 
+    - "{{ ansible_home.dir }}/*.sh"

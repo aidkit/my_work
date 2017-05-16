@@ -1,13 +1,5 @@
 ---
 
-- name: jenkins RPM Copy
-  copy: 
-    src: "{{ jekins_package_url }}"
-    dest: /tmp
-    mode: 0664
-  tags:
-    - jenkins
-    - deploy
 
 - name: Openjdk RPM Copy
   copy: 
@@ -18,6 +10,7 @@
   tags:
     - jenkins
     - deploy
+    - openjdk_inst
 
 - name: Install openjdk
   yum: name="/tmp/{{ item }}" state=present update_cache=yes
@@ -25,18 +18,31 @@
   tags:
     - jenkins
     - deploy
+    - openjdk_inst
 
+- name: jenkins RPM Copy
+  copy: 
+    src: "{{ jekins_package_url }}"
+    dest: /tmp
+    mode: 0664
+  tags:
+    - jenkins
+    - deploy
+    - jenkins_inst
+ 
 - name: get jenkins repo
   get_url: url=http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo dest={{ yum_repojitory_path }}/jenkins.repo
   tags:
     - jenkins
     - deploy
+    - jenkins_inst
 
 - name: set jenkins repo
   rpm_key: state=present key={{ jenkins_key }}
   tags:
     - jenkins
     - deploy
+    - jenkins_inst
 
 - name: Install jenkins
   yum: name="/tmp/{{ jekins_package_url }}" state=present
@@ -44,40 +50,47 @@
   tags:
     - jenkins
     - deploy
+    - jenkins_inst
     
 - name: Start jenkins
   service: name=jenkins state=started enabled=yes
   tags:
     - jenkins
     - deploy
+    - jenkins_inst
 
 - name: Wait for port {{ jenkins_port }} availability
   wait_for: port={{ jenkins_port }} timeout=60
   tags:
     - jenkins
     - deploy
+    - jenkins_inst
 
 - name: Jenkins delete
   file: path={{ jenkins_parent_dir }}/jenkins state=absent
   tags:
     - jenkins
     - deploy
-
+    - jenkins_setting
+    
 - name: 初期設定済みファイルを配備
   unarchive: src={{ jenkins_initset_file }} dest={{ jenkins_parent_dir }}
   tags:
     - jenkins
     - deploy
+    - jenkins_setting
 
 - name: ReStart jenkins
   service: name=jenkins state=restarted enabled=yes
   tags:
     - jenkins
     - deploy
+    - jenkins_setting
 
 - name: Wait for port {{ jenkins_port }} availability
   wait_for: port={{ jenkins_port }} timeout=60
   tags:
     - jenkins
     - deploy
+    - jenkins_setting
 

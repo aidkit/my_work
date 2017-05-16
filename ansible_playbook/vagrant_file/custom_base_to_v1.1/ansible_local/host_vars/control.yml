@@ -1,0 +1,4 @@
+---
+ansible: 
+  user_name: ansible
+  password: ansible

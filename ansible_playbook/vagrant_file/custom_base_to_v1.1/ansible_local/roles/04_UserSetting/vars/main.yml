@@ -1,0 +1,11 @@
+---
+# user_group_setting
+
+usergroup: 
+  ansible_user: 
+    name: "{{ ansible.user_name }}"
+    group: "{{ ansible.user_name }}"
+    password: "{{ ansible.password }}"
+  ansible_group:
+    name: "{{ ansible.user_name }}"
+

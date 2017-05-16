@@ -1,0 +1,12 @@
+---
+# package install
+yum_inst_packages: 
+  - openssh
+  - python-passlib
+  - python-pip
+  - subversion
+  - libselinux-python
+
+pip_inst_package: 
+  - pexpect
+  - python-jenkins

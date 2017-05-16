@@ -1,0 +1,11 @@
+---
+# user_group_setting
+
+ansible_home: 
+  dir: "/opt/{{ansible.user_name}}"
+
+
+svn_info: 
+  url: "http://10.161.130.77:9100/svn/vm_machine/branches/ansible_playbook_buildsrv"
+  user: build-admin
+  pass: takuso
