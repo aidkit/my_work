@@ -7,7 +7,7 @@
     - deploy
     - init_setting
     
-- name: 初期設定済みファイルを配備
+- name: アンロック設定済みファイルを配備
   unarchive: src={{ jenkins_initset_file }} dest={{ jenkins_parent_dir }}
   tags:
     - jenkins
@@ -16,18 +16,50 @@
 
 - name: 初期設定済みプロキシファイルを配備
   template: 
-    src: proxy.xml.j2
+    src: jenkins_home/proxy.xml.j2
     dest: /var/lib/jenkins/proxy.xml
-    owner: jenkins
-    group: jenkins
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
     mode: 0644
     backup: yes
   tags:
     - jenkins
     - deploy
     - init_setting
-- name: ReStart jenkins
-  service: name=jenkins state=restarted enabled=yes
+    
+- name: 初期設定済みシステム設定ファイルを配備
+  template: 
+    src: jenkins_home/config.xml.j2
+    dest: /var/lib/jenkins/config.xml
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
+    mode: 0644
+    backup: yes
+  tags:
+    - jenkins
+    - deploy
+    - init_setting
+
+- name: システム設定関連ファイルを配備
+  copy: 
+    src: "jenkins_home/{{ item }}"
+    dest: /var/lib/jenkins
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
+    mode: 0644
+    backup: yes
+  with_items: "{{ config_files }}"
+  tags:
+    - jenkins
+    - deploy
+    - init_setting2
+
+- name: Jenkins ワークスペースを生成
+  file: 
+    path: "{{jenkins_wksp}}"
+    state: directory
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
   tags:
     - jenkins
     - deploy

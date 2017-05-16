@@ -15,10 +15,25 @@ jenkins_cli_url: http://{{ jenkins_host_name }}:{{ jenkins_port }}/jnlpJars/jenk
 jenkins_updates_center_url: http://updates.jenkins-ci.org/update-center.json
 jenkins_initset_file: jenkins_2.46_initsetting.tar.gz
 jenkins_parent_dir: /var/lib
-
+jenkins_user: jenkins
 
 # template vars
 ## proxy.xml.j2
 proxy_ip: 10.161.129.10
 proxy_port: 9515
 noproxy_ip: '192.168.33.*;10.161.129.10;10.161.131.40'
+
+## config.xml.j2
+numJob_Executors: 4
+jenkins_wksp: /opt/SVN_build
+system_Message: 九州託送PJ　構成管理 Jenkins
+env_cnt: 1
+env1_str: SVN_SRV_IP
+env1_val: http://10.161.131.40:9100
+
+config_files: 
+  - hudson.tasks.Shell.xml
+  - hudson.triggers.SCMTrigger.xml
+  - jenkins.model.ArtifactManagerConfiguration.xml
+  - jenkins.model.JenkinsLocationConfiguration.xml
+  
