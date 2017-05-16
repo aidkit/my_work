@@ -52,7 +52,7 @@
   tags:
     - jenkins
     - deploy
-    - init_setting2
+    - init_setting
 
 - name: Jenkins ワークスペースを生成
   file: 
