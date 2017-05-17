@@ -1,0 +1,72 @@
+---
+# git install
+
+- name: epel リポジトリの導入
+  yum: 
+    name: epel-release
+    state: latest
+    update_cache: yes
+  tags:
+    - git_inst
+
+- name: wing リポジトリの導入
+  get_url: 
+    url: http://wing-repo.net/wing/6/EL6.wing.repo
+    dest: /etc/yum.repos.d
+  tags:
+    - git_inst
+
+- name: git インストール
+  yum: 
+    name: git
+    state: present
+    enablerepo: wing
+  tags:
+    - git_inst
+    
+# playbook checkout
+
+- name: github clone
+  git: 
+    repo: https://github.com/aidkit/my_work.git
+    dest: /opt/git
+  tags: 
+    - playbook_deploy_git
+
+- name: Playbook Copy
+  shell: cp -rp /opt/git/ansible_playbook/buildsrv /opt/ansible
+  args: 
+    creates: /opt/ansible/ansible.cfg
+  tags: 
+    - playbook_deploy_git
+
+- name:  ansible作業ディレクトリパーミッション変更
+  file: 
+    path: "{{ ansible.work_dir }}"
+    state: directory
+    group: "{{ ansible.user_name }}"
+    owner: "{{ ansible.user_name }}"
+    mode: 0755
+  tags: 
+    - playbook_deploy_git
+
+- name:  ansible作業ファイル所有者変更
+  file: 
+    path: "{{ ansible.work_dir }}"
+    state: directory
+    recurse: yes
+    group: "{{ ansible.user_name }}"
+    owner: "{{ ansible.user_name }}"
+  tags: 
+    - playbook_deploy_git
+
+- name:  ansible作業ファイル(sh)パーミッション変更
+  file: 
+    path: "{{ item }}"
+    mode: 0755
+  with_fileglob: 
+    - "{{ ansible.work_dir }}/*.sh"
+  tags: 
+    - playbook_deploy_git
+
+  
