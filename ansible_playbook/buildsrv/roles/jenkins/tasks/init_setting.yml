@@ -65,10 +65,21 @@
     - deploy
     - init_setting
 
+
+
+
+
+- name: ReStart jenkins
+  service: name=jenkins state=restarted enabled=yes
+  tags:
+    - jenkins
+    - deploy
+    - init_setting
+
 - name: Wait for port {{ jenkins_port }} availability
   wait_for: port={{ jenkins_port }} timeout=60
   tags:
     - jenkins
     - deploy
     - init_setting
-
+    

@@ -2,3 +2,4 @@
 ansible: 
   user_name: ansible
   work_dir: /opt/ansible
+  

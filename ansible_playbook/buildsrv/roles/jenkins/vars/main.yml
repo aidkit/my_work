@@ -19,7 +19,7 @@ jenkins_user: jenkins
 
 # template vars
 ## proxy.xml.j2
-proxy_ip: 10.161.129.10
+proxy_ip: cvc21
 proxy_port: 9515
 noproxy_ip: '192.168.33.*;10.161.129.10;10.161.131.40'
 
@@ -45,4 +45,3 @@ my_jenkins_params:
   url: http://localhost:8080
   force: true
   timeout: 300
-  

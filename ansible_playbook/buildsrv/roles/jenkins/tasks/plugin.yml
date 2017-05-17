@@ -23,18 +23,95 @@
     - jenkins
     - plugin
 
-- name: JenkinsPlugin Timestamper
+- name: JenkinsPlugin "Timestamper"
   jenkins_plugin:
     name: Timestamper
     with_dependencies: yes
     params: "{{ my_jenkins_params }}"
+  ignore_errors: True
   tags:
     - jenkins
     - plugin
 
-- name: Restart jenkins
-  service: name=jenkins state=restarted
+- name: JenkinsPlugin "thinBackup"
+  jenkins_plugin:
+    name: thinBackup
+    with_dependencies: yes
+    params: "{{ my_jenkins_params }}"
+  ignore_errors: True
   tags:
     - jenkins
     - plugin
 
+- name: JenkinsPlugin "Job Configuration History Plugin"
+  jenkins_plugin:
+    name: jobConfigHistory
+    with_dependencies: yes
+    params: "{{ my_jenkins_params }}"
+  ignore_errors: True
+  tags:
+    - jenkins
+    - plugin
+
+- name: JenkinsPlugin "Role Strategy Plugin"
+  jenkins_plugin:
+    name: role-strategy
+    with_dependencies: yes
+    params: "{{ my_jenkins_params }}"
+  ignore_errors: True
+  tags:
+    - jenkins
+    - plugin
+
+- name: JenkinsPlugin "Subversion Plugin"
+  jenkins_plugin:
+    name: subversion
+    with_dependencies: yes
+    params: "{{ my_jenkins_params }}"
+  ignore_errors: True
+  tags:
+    - jenkins
+    - plugin
+
+- name: JenkinsPlugin "SSH Slaves plugin"
+  jenkins_plugin:
+    name: ssh-slaves
+    with_dependencies: yes
+    params: "{{ my_jenkins_params }}"
+  ignore_errors: True
+  tags:
+    - jenkins
+    - plugin
+
+- name: JenkinsPlugin "Parameterized Trigger Plugin"
+  jenkins_plugin:
+    name: parameterized-trigger
+    with_dependencies: yes
+    params: "{{ my_jenkins_params }}"
+  ignore_errors: True
+  tags:
+    - jenkins
+    - plugin
+    
+    
+    
+- name: ReStart jenkins
+  service: name=jenkins state=reloaded enabled=yes
+  tags:
+    - jenkins
+    - deploy
+    - plugin
+    
+- name: ReStart jenkins
+  service: name=jenkins state=restarted enabled=yes
+  tags:
+    - jenkins
+    - deploy
+    - plugin
+
+- name: Wait for port {{ jenkins_port }} availability
+  wait_for: port={{ jenkins_port }} timeout=60
+  tags:
+    - jenkins
+    - deploy
+    - plugin

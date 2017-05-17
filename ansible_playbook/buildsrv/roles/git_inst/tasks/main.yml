@@ -33,13 +33,6 @@
   tags: 
     - playbook_deploy_git
 
-- name: Playbook Copy
-  shell: cp -rp /opt/git/ansible_playbook/buildsrv /opt/ansible
-  args: 
-    creates: /opt/ansible/ansible.cfg
-  tags: 
-    - playbook_deploy_git
-
 - name:  ansible作業ディレクトリパーミッション変更
   file: 
     path: "{{ ansible.work_dir }}"
@@ -47,6 +40,13 @@
     group: "{{ ansible.user_name }}"
     owner: "{{ ansible.user_name }}"
     mode: 0755
+  tags: 
+    - playbook_deploy_git
+
+- name: Playbook Copy
+  shell: "cp -rp /opt/git/ansible_playbook/buildsrv/* {{ ansible.work_dir }}"
+  args: 
+    creates: "{{ ansible.work_dir }}/ansible.cfg"
   tags: 
     - playbook_deploy_git
 
