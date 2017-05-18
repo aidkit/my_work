@@ -1,17 +1,19 @@
 ---
 
-- name: Jenkins Setting Delete
+- name: Jenkins Homeを削除します。
   file: path={{ jenkins_parent_dir }}/jenkins state=absent
   tags:
     - jenkins
-    - deploy
     - init_setting
     
 - name: アンロック設定済みファイルを配備
-  unarchive: src={{ jenkins_initset_file }} dest={{ jenkins_parent_dir }}
+  unarchive: 
+    src: "{{ jenkins_initset_file }}"
+    dest: "{{ jenkins_parent_dir }}"
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
   tags:
     - jenkins
-    - deploy
     - init_setting
 
 - name: 初期設定済みプロキシファイルを配備
@@ -24,7 +26,6 @@
     backup: yes
   tags:
     - jenkins
-    - deploy
     - init_setting
     
 - name: 初期設定済みシステム設定ファイルを配備
@@ -37,22 +38,21 @@
     backup: yes
   tags:
     - jenkins
-    - deploy
     - init_setting
 
-- name: システム設定関連ファイルを配備
-  copy: 
-    src: "jenkins_home/{{ item }}"
-    dest: /var/lib/jenkins
-    owner: "{{ jenkins_user }}"
-    group: "{{ jenkins_user }}"
-    mode: 0644
-    backup: yes
-  with_items: "{{ config_files }}"
-  tags:
-    - jenkins
-    - deploy
-    - init_setting
+#- name: システム初期設定関連ファイルを配備
+#  copy: 
+#    src: "jenkins_home/{{ item }}"
+#    dest: /var/lib/jenkins
+#    owner: "{{ jenkins_user }}"
+#    group: "{{ jenkins_user }}"
+#    mode: 0644
+#    backup: yes
+#  with_items: "{{ config_files }}"
+#  tags:
+#    - jenkins
+#    - deploy
+#    - init_setting
 
 - name: Jenkins ワークスペースを生成
   file: 
@@ -62,24 +62,28 @@
     group: "{{ jenkins_user }}"
   tags:
     - jenkins
-    - deploy
     - init_setting
 
-
-
-
-
-- name: ReStart jenkins
+- name: Jenkinsをリスタートします。
   service: name=jenkins state=restarted enabled=yes
   tags:
     - jenkins
-    - deploy
     - init_setting
 
-- name: Wait for port {{ jenkins_port }} availability
+- name: Jenkins port{{ jenkins_port }} 有効化まで待機します。
   wait_for: port={{ jenkins_port }} timeout=60
+  tags:
+    - jenkins
+    - init_setting
+    
+- name: Jenkinsサービス有効まで待機します。
+  shell: curl -o /dev/null -w %{http_code} {{ my_jenkins_params.url }}/ 2> /dev/null
+  register: result
+  until: result.stdout.find('403') != -1
+  retries: 20
+  delay: 3
+  changed_when: false
   tags:
     - jenkins
     - deploy
     - init_setting
-    

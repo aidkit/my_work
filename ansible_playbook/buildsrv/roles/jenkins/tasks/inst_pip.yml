@@ -1,5 +1,5 @@
 ---
-- name: pipインストールその１
+- name: pipインストール(python-pip)
   yum: 
     name=python-pip
     state=latest

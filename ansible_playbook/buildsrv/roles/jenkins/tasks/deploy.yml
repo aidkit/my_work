@@ -1,7 +1,5 @@
 ---
-
-
-- name: Openjdk RPM Copy
+- name: OpenJDK RPM をコピーします。
   copy: 
     src: "{{ item }}"
     dest: /tmp
@@ -12,15 +10,18 @@
     - deploy
     - openjdk_inst
 
-- name: Install openjdk
-  yum: name="/tmp/{{ item }}" state=present update_cache=yes
+- name: OpenJDKをインストールします。
+  yum: 
+    name: "/tmp/{{ item }}"
+    state: present
+    update_cache: yes
   with_items: "{{ openjdk_items }}"
   tags:
     - jenkins
     - deploy
     - openjdk_inst
 
-- name: jenkins RPM Copy
+- name: Jenkins RPM をコピーします。
   copy: 
     src: "{{ jekins_package_url }}"
     dest: /tmp
@@ -30,42 +31,59 @@
     - deploy
     - jenkins_inst
  
-- name: get jenkins repo
-  get_url: url=http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo dest={{ yum_repojitory_path }}/jenkins.repo
+- name: Jenkins Repositoryを取得します。
+  get_url: 
+    url: "{{ jenkins_repo }}"
+    dest: "{{ yum_repojitory_path }}/jenkins.repo"
   tags:
     - jenkins
     - deploy
     - jenkins_inst
 
-- name: set jenkins repo
+- name: Jenkins Keyを設定します。
   rpm_key: state=present key={{ jenkins_key }}
   tags:
     - jenkins
     - deploy
     - jenkins_inst
 
-- name: Install jenkins
-  yum: name="/tmp/{{ jekins_package_url }}" state=present
+- name: Jenkinsをインストールします。
+  yum: 
+    name: "/tmp/{{ jekins_package_url }}"
+    state: present
   ignore_errors: yes
   tags:
     - jenkins
     - deploy
     - jenkins_inst
     
-
-
-
-
-- name: Start jenkins
-  service: name=jenkins state=started enabled=yes
+- name: Jenkinsをスタートします。
+  service: 
+    name: jenkins
+    state: started
+    enabled: yes
   tags:
     - jenkins
     - deploy
     - jenkins_inst
 
-- name: Wait for port {{ jenkins_port }} availability
+- name: Jenkins port{{ jenkins_port }} 有効化まで待機します。
   wait_for: port={{ jenkins_port }} timeout=60
   tags:
     - jenkins
     - deploy
     - jenkins_inst
+
+- name: Jenkinsサービス有効まで待機します。
+  shell: curl -o /dev/null -w %{http_code} {{ my_jenkins_params.url }}/ 2> /dev/null
+  register: result
+  until: result.stdout.find('403') != -1
+  retries: 20
+  delay: 3
+  changed_when: false
+  tags:
+    - jenkins
+    - deploy
+    - jenkins_inst
+
+  
