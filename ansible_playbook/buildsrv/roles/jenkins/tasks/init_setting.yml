@@ -40,20 +40,6 @@
     - jenkins
     - init_setting
 
-#- name: システム初期設定関連ファイルを配備
-#  copy: 
-#    src: "jenkins_home/{{ item }}"
-#    dest: /var/lib/jenkins
-#    owner: "{{ jenkins_user }}"
-#    group: "{{ jenkins_user }}"
-#    mode: 0644
-#    backup: yes
-#  with_items: "{{ config_files }}"
-#  tags:
-#    - jenkins
-#    - deploy
-#    - init_setting
-
 - name: Jenkins ワークスペースを生成
   file: 
     path: "{{jenkins_wksp}}"

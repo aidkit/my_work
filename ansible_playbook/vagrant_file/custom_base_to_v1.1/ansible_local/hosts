@@ -1,4 +1,4 @@
 [manage_server]
-control ansible_connection=local
+_NODE_NAME ansible_connection=local
 
 

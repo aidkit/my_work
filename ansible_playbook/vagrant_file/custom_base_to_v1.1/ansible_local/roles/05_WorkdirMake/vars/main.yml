@@ -9,3 +9,10 @@ svn_info:
   url: "http://10.161.130.77:9100/svn/vm_machine/branches/ansible_playbook_buildsrv"
   user: build-admin
   pass: takuso
+
+ansible_hosts_file: "{{ ansible_home.dir }}/hosts"
+ansible_inst_hosts: 
+  - "[control]"
+  - "localhost"
+  - "[servers]"
+  - "jenkinsSrv"

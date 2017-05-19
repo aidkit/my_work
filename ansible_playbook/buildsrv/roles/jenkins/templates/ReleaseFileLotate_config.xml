@@ -1,9 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>指定資材ファイルのローテーションを行う。&#xd;
-&#xd;
-</description>
+  <description>指定資材ファイルのローテーションを行う。</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.model.ParametersDefinitionProperty>
@@ -11,7 +9,7 @@
         <hudson.model.StringParameterDefinition>
           <name>FIND_DIR</name>
           <description>ローテーションファイルが存在するルートパス</description>
-          <defaultValue>/opt/SVN_Build/release</defaultValue>
+          <defaultValue>/opt/build/Jenkins_wksp/release</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>FIND_FILE</name>
@@ -34,7 +32,7 @@
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
-  <customWorkspace>/opt/SVN_Build</customWorkspace>
+  <customWorkspace>/opt/build/jobs/ReleaseFileLotate</customWorkspace>
   <builders>
     <hudson.tasks.Shell>
       <command>#!/bin/bash
@@ -85,6 +83,6 @@ fi</command>
   </builders>
   <publishers/>
   <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.7"/>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.8"/>
   </buildWrappers>
 </project>

@@ -1,5 +1,48 @@
 ---
-- name: jenkins Job (ReleaseFileLotate) Manage
+# JenkinsJobを生成します。
+
+- name: jenkinsビルドリリースフォルダを作成します。
+  file: 
+    path: "{{ jenkins_wk_dirs.release }}"
+    state: directory
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
+  tags: 
+    - jenkins
+    - job_manage
+    - job_manage_makedir
+
+  file: 
+    path: "{{ jenkins_wk_dirs.diff_out }}"
+    state: directory
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
+  tags: 
+    - jenkins
+    - job_manage
+    - job_manage_makedir
+    
+  file: 
+    path: "{{ jenkins_wk_dirs.chg_history }}"
+    state: directory
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
+  tags: 
+    - jenkins
+    - job_manage
+    - job_manage_makedir
+    
+  file: 
+    path: "{{ jenkins_wk_dirs.jobs }}"
+    state: directory
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
+  tags: 
+    - jenkins
+    - job_manage
+    - job_manage_makedir
+    
+- name: Jenkins Job ReleaseFileLotate 生成
   jenkins_job: 
     config: "{{ lookup('file', 'templates/ReleaseFileLotate_config.xml') }}"
     name: ReleaseFileLotate

@@ -172,13 +172,13 @@ IF NOT "!CUSTOM_PATH!"=="" (
 	echo.
 	
 	
-	IF EXIST "%VAGRANT_WORKSPACE%\ansible_local\inventory" ( 
-		ECHO "------ansivle inventory ノード名称置換------"
-		copy  %VAGRANT_WORKSPACE%\ansible_local\inventory %VAGRANT_WORKSPACE%\ansible_local\inventory_old
-		CALL %basedir%\Replace_FileStr.bat %VAGRANT_WORKSPACE%\ansible_local\inventory_old %VAGRANT_WORKSPACE%\ansible_local\inventory %REPLACE_NODE_STR% %NODE_NAME%
+	IF EXIST "%VAGRANT_WORKSPACE%\ansible_local\hosts" ( 
+		ECHO "------ansivle hosts ノード名称置換------"
+		copy  %VAGRANT_WORKSPACE%\ansible_local\hosts %VAGRANT_WORKSPACE%\ansible_local\hosts_old
+		CALL %basedir%\Replace_FileStr.bat %VAGRANT_WORKSPACE%\ansible_local\hosts_old %VAGRANT_WORKSPACE%\ansible_local\hosts %REPLACE_NODE_STR% %NODE_NAME%
 	)
 	IF EXIST "%VAGRANT_WORKSPACE%\ansible_local\host_vars\_NODE_NAME.yml" ( 
-		ECHO "------ansivle host_vars ファイル名置換------"
+		ECHO "------ansivle host_vars\_NODE_NAME.yml ファイル名変更------"
 		move  %VAGRANT_WORKSPACE%\ansible_local\host_vars\_NODE_NAME.yml %VAGRANT_WORKSPACE%\ansible_local\host_vars\%NODE_NAME%.yml
 	)
 )

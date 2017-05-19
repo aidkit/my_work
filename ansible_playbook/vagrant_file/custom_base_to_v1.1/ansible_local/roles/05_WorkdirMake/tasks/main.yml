@@ -45,3 +45,13 @@
     - "{{ ansible_home.dir }}/*.sh"
   tags: 
     - 05_WorkdirMake
+
+- name: ファイル"{{ ansible_hosts_file }}"に"{{ ansible_inst_hosts }}"を追記
+  lineinfile: 
+    dest={{ ansible_hosts_file }}
+    line={{ item }}
+  with_items: 
+   - "{{ ansible_inst_hosts }}"
+  tags: 
+    - 05_WorkdirMake
+    

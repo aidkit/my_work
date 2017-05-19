@@ -3,4 +3,4 @@
 - include: deploy.yml
 - include: init_setting.yml
 - include: plugin.yml
-#- include: job_manage.yml
+- include: job_manage.yml

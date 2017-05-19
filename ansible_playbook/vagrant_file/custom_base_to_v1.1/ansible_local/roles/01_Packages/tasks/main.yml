@@ -9,7 +9,7 @@
   tags: 
     - 01_Packages
     
-- name: Configure/  Yum Repository
+- name: Configure/ Yum Repository
   replace: 
     dest: /etc/yum.repos.d/CentOS-Base.repo
     replace: '#mirrorlist_co='

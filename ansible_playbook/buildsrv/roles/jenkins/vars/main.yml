@@ -1,4 +1,5 @@
 ---
+# Jenkinsインストール関連定義
 openjdk_items:
   - java-1.8.0-openjdk-headless-1.8.0.51-3.b16.el6_7.x86_64.rpm
   - java-1.7.0-openjdk-1.7.0.71-2.5.3.2.el6_6.x86_64.rpm
@@ -6,7 +7,6 @@ yum_repojitory_path: /etc/yum.repos.d
 jenkins_key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
 jenkins_repo: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
 jekins_package_url: jenkins-2.46-1.1.noarch.rpm
-#jekins_package_url: http://pkg.jenkins-ci.org/redhat-stable/jenkins-2.46.1-1.1.noarch.rpm
 jenkins_host_name: localhost
 jenkins_port: 8080
 jenkins_updates_json_path: /var/lib/jenkins/updates/default.json
@@ -19,7 +19,7 @@ jenkins_initConfig_file: jenkins_2.46_initConfig.tar.gz
 jenkins_parent_dir: /var/lib
 jenkins_user: jenkins
 
-# template vars
+# templateファイル定義
 ## proxy.xml.j2
 proxy_ip: 10.161.129.10
 proxy_port: 9515
@@ -27,12 +27,13 @@ noproxy_ip: '192.168.33.*;10.161.129.10;10.161.131.40'
 
 ## config.xml.j2
 numJob_Executors: 4
-jenkins_wksp: /opt/SVN_build
+jenkins_wksp: /opt/build/Jenkins_wksp
 system_Message: 九州託送PJ　構成管理 Jenkins
 env_cnt: 1
 env1_str: SVN_SRV_IP
 env1_val: http://10.161.131.40:9100
 
+# 初期設定関連定期
 config_files: 
   - hudson.tasks.Shell.xml
   - hudson.triggers.SCMTrigger.xml
@@ -40,7 +41,7 @@ config_files:
   - jenkins.model.JenkinsLocationConfiguration.xml
 
   
-# Jenkins Plugin Install vars
+# Jenkins Plugin インストール関連定義
 jenkins_plugins: 
   - Timestamper
   - thinBackup
@@ -50,10 +51,21 @@ jenkins_plugins:
   - ssh-slaves
   - parameterized-trigger
 
-
 my_jenkins_params: 
   url_username: admin
   url_password: admin
   url: http://localhost:8080
   force: true
   timeout: 300
+
+# JenkinsJob関連定義
+jenkins_wk_dirs: 
+  release: "{{ jenkins_wksp }}/release"      # Jenkinsリリース集積フォルダ
+  diff_out: "{{ jenkins_wksp }}/diff_out"     # JenkinsDIFF結果フォルダ
+  chg_history: "{{ jenkins_wksp }}/chg_history"  # Jenkins変更履歴フォルダ
+  jobs: "{{ jenkins_wksp }}/jobs"         # Jenkins変更履歴フォルダ
+
+
+
+
+

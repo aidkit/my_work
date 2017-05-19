@@ -42,9 +42,4 @@
 
 ## db-[99:101]-node.example.com
 
-[control]
-localhost
-[servers]
-buildsrv
-[slaves]
-node1
+
